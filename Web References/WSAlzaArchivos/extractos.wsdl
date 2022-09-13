@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://10.1.1.191/extractosService.asmx" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://10.1.1.191/extractosService.asmx" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">extractos en linea, serializa un extracto solictado, de tal manera a no ir contra oracle si el extracto ya esta serializado</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://10.1.1.191/extractosService.asmx">
+      <s:element name="extractoCuentaService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lacuenta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lasFechas_mmddyyyy" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="extractoCuentaServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="extractoCuentaServiceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="extractoCuentaConEntidadService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lacuenta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lasFechas_mmddyyyy" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="extractoCuentaConEntidadServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="extractoCuentaConEntidadServiceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="eliminarDirectorio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sucursal" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fecha" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="eliminarDirectorioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="eliminarDirectorioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="alzarArchivo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extension" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="archivo" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="alzarArchivoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="alzarArchivoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="bajarArchivo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="bajarArchivoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="bajarArchivoResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="alzarArchivoPAS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="archivo" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="alzarArchivoPASResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="alzarArchivoPASResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="listaArchivosPath">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="p_ruta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="listaArchivosPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listaArchivosPathResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="bajarArchivoPAS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="bajarArchivoPASResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="bajarArchivoPASResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="eliminaArchivoPAS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stringResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="eliminaArchivoPASResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="eliminaArchivoPASResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="extractoCuentaServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:extractoCuentaService" />
+  </wsdl:message>
+  <wsdl:message name="extractoCuentaServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:extractoCuentaServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="extractoCuentaConEntidadServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:extractoCuentaConEntidadService" />
+  </wsdl:message>
+  <wsdl:message name="extractoCuentaConEntidadServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:extractoCuentaConEntidadServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="eliminarDirectorioSoapIn">
+    <wsdl:part name="parameters" element="tns:eliminarDirectorio" />
+  </wsdl:message>
+  <wsdl:message name="eliminarDirectorioSoapOut">
+    <wsdl:part name="parameters" element="tns:eliminarDirectorioResponse" />
+  </wsdl:message>
+  <wsdl:message name="alzarArchivoSoapIn">
+    <wsdl:part name="parameters" element="tns:alzarArchivo" />
+  </wsdl:message>
+  <wsdl:message name="alzarArchivoSoapOut">
+    <wsdl:part name="parameters" element="tns:alzarArchivoResponse" />
+  </wsdl:message>
+  <wsdl:message name="bajarArchivoSoapIn">
+    <wsdl:part name="parameters" element="tns:bajarArchivo" />
+  </wsdl:message>
+  <wsdl:message name="bajarArchivoSoapOut">
+    <wsdl:part name="parameters" element="tns:bajarArchivoResponse" />
+  </wsdl:message>
+  <wsdl:message name="alzarArchivoPASSoapIn">
+    <wsdl:part name="parameters" element="tns:alzarArchivoPAS" />
+  </wsdl:message>
+  <wsdl:message name="alzarArchivoPASSoapOut">
+    <wsdl:part name="parameters" element="tns:alzarArchivoPASResponse" />
+  </wsdl:message>
+  <wsdl:message name="listaArchivosPathSoapIn">
+    <wsdl:part name="parameters" element="tns:listaArchivosPath" />
+  </wsdl:message>
+  <wsdl:message name="listaArchivosPathSoapOut">
+    <wsdl:part name="parameters" element="tns:listaArchivosPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="bajarArchivoPASSoapIn">
+    <wsdl:part name="parameters" element="tns:bajarArchivoPAS" />
+  </wsdl:message>
+  <wsdl:message name="bajarArchivoPASSoapOut">
+    <wsdl:part name="parameters" element="tns:bajarArchivoPASResponse" />
+  </wsdl:message>
+  <wsdl:message name="eliminaArchivoPASSoapIn">
+    <wsdl:part name="parameters" element="tns:eliminaArchivoPAS" />
+  </wsdl:message>
+  <wsdl:message name="eliminaArchivoPASSoapOut">
+    <wsdl:part name="parameters" element="tns:eliminaArchivoPASResponse" />
+  </wsdl:message>
+  <wsdl:portType name="extractosSoap">
+    <wsdl:operation name="extractoCuentaService">
+      <wsdl:input message="tns:extractoCuentaServiceSoapIn" />
+      <wsdl:output message="tns:extractoCuentaServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="extractoCuentaConEntidadService">
+      <wsdl:input message="tns:extractoCuentaConEntidadServiceSoapIn" />
+      <wsdl:output message="tns:extractoCuentaConEntidadServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="eliminarDirectorio">
+      <wsdl:input message="tns:eliminarDirectorioSoapIn" />
+      <wsdl:output message="tns:eliminarDirectorioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivo">
+      <wsdl:input message="tns:alzarArchivoSoapIn" />
+      <wsdl:output message="tns:alzarArchivoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivo">
+      <wsdl:input message="tns:bajarArchivoSoapIn" />
+      <wsdl:output message="tns:bajarArchivoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivoPAS">
+      <wsdl:input message="tns:alzarArchivoPASSoapIn" />
+      <wsdl:output message="tns:alzarArchivoPASSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="listaArchivosPath">
+      <wsdl:input message="tns:listaArchivosPathSoapIn" />
+      <wsdl:output message="tns:listaArchivosPathSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivoPAS">
+      <wsdl:input message="tns:bajarArchivoPASSoapIn" />
+      <wsdl:output message="tns:bajarArchivoPASSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="eliminaArchivoPAS">
+      <wsdl:input message="tns:eliminaArchivoPASSoapIn" />
+      <wsdl:output message="tns:eliminaArchivoPASSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="extractosSoap" type="tns:extractosSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="extractoCuentaService">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/extractoCuentaService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="extractoCuentaConEntidadService">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/extractoCuentaConEntidadService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eliminarDirectorio">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/eliminarDirectorio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivo">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/alzarArchivo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivo">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/bajarArchivo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivoPAS">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/alzarArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listaArchivosPath">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/listaArchivosPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivoPAS">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/bajarArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eliminaArchivoPAS">
+      <soap:operation soapAction="http://10.1.1.191/extractosService.asmx/eliminaArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="extractosSoap12" type="tns:extractosSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="extractoCuentaService">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/extractoCuentaService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="extractoCuentaConEntidadService">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/extractoCuentaConEntidadService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eliminarDirectorio">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/eliminarDirectorio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivo">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/alzarArchivo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivo">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/bajarArchivo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alzarArchivoPAS">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/alzarArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listaArchivosPath">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/listaArchivosPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bajarArchivoPAS">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/bajarArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="eliminaArchivoPAS">
+      <soap12:operation soapAction="http://10.1.1.191/extractosService.asmx/eliminaArchivoPAS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="extractos">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">extractos en linea, serializa un extracto solictado, de tal manera a no ir contra oracle si el extracto ya esta serializado</wsdl:documentation>
+    <wsdl:port name="extractosSoap" binding="tns:extractosSoap">
+      <soap:address location="http://10.6.2.134:10100/extractos.asmx" />
+    </wsdl:port>
+    <wsdl:port name="extractosSoap12" binding="tns:extractosSoap12">
+      <soap12:address location="http://10.6.2.134:10100/extractos.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
