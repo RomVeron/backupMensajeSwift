@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace projectBase.Properties {
+namespace HistoricoMsjSwift_4.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -30,6 +30,16 @@ namespace projectBase.Properties {
         public string projectBase_WSAlzaArchivos_extractos {
             get {
                 return ((string)(this["projectBase_WSAlzaArchivos_extractos"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://servicebus.bancontinental.com.py/servicebus.asmx")]
+        public string HistoricoMsjSwift_4_py_com_bancontinental_servicebus_servicebus {
+            get {
+                return ((string)(this["HistoricoMsjSwift_4_py_com_bancontinental_servicebus_servicebus"]));
             }
         }
     }

@@ -112,18 +112,35 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="backgroundWorker2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="backgroundWorker2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>181, 17</value>
   </metadata>
-  <metadata name="backgroundWorker3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="backgroundWorker3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>345, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btManual.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAm1JREFUSEvt
+        le9PEnEcx1nrWf9D9bhnra0eRo96gs2aPWit+cCyrbXWD7c8K7k1QOgI14NGJ0IJjAgEVzBOQCQMCTAF
+        xYQpi4CMFBoFwyh0n+7LHAkdzdW1nvTdXrfb5/v+vl+3e3DHOXqZ91f5aXBDOrinR6I8gkkHz2BSxQmM
+        UB3qItS7GnNohvaqGTqLzlwXk7sbc9ULjuM78HuaTpH88dIDneUDNRH8PDk9XxnzzZSMlCdHKAwrIrnO
+        gUlV+xD0vVNlsn/0hqKl8GK6spDIbEwvJMrmMV+eGDDE6a6zqLMmoJ+gfWjEUSqW1qDZSr1fhbtKY1Zp
+        tOeTq58gmS0wks4VgHoxU0adNcGVOw97ArPRzarm6+u3CqRyRcbirUSTGbgqeYRVBa3d1N4Oobm0HQFa
+        TIWNIAHqRN20wHrgoowq/q6A1JrAMzVXN0MC1Im6/1hwquMSDGjNdTNWBUywJjBaXdDVKwFSM1w3Z1Vw
+        kNsCF67x6+asviIk6BH0183+C2rISDUt4MHx0+dhdCLIvsAXjoHWbIORUQ9E3iyzL2jGvxOsfSlDOBoH
+        q3sK9DYvmBx+cAdmIZHOwPr6Rp3g7Uoe5pbS4A0twvNXMQi+TkB8OUt/rovMAjFpAJHiKYi0ARDqI9Bn
+        ioPQGAOBLgxitRuE5DDYvSEI06WyIQv0qcereyiDsgJ0RvsSJMpnINdTPwTHum37zxH2Qq9mHviGd815
+        kqblfhBq/PR9ijmzyS1NBDoJZwF1c7i4e2cb33n/5G2X6ZfgzvF2YjKPaMMdLsbMFlAn6q79nLdD600L
+        twWzHWbaawbjkD14nO+nZZPuTqkKnQAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

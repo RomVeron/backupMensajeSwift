@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // La información general sobre un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos atributos para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("projectBase")]
+[assembly: AssemblyTitle("HistoricoMsjSwift_4")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Banco Continental SAECA")]
-[assembly: AssemblyProduct("projectBase")]
-[assembly: AssemblyCopyright("© Banco Continental SAECA 2008")]
+[assembly: AssemblyProduct("HistoricoMsjSwift_4")]
+[assembly: AssemblyCopyright("© Banco Continental SAECA 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

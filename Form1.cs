@@ -145,8 +145,8 @@ namespace f2
         private void iniciosVarios()
         {
             //Inicializaciones de base
-            this.Icon = projectBase.Properties.Resources.pyg;
-            this.Text = "Finansys 2";
+            this.Icon = HistoricoMsjSwift_4.Properties.Resources.pyg;
+            //this.Text = "Finansys 2";
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -154,7 +154,7 @@ namespace f2
         #endregion        
 
         private void btnCaptura_Click(object sender, EventArgs e)
-        {            
+        {
             ElegirArchivo();
         }
 
@@ -228,78 +228,32 @@ namespace f2
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            long cantFiles = op.FileNames.LongLength;
-            for (int f = 0; f < cantFiles; f++)
+            btnCaptura.Enabled = false;
+
+            XmlNodeList nodo = xDoc.GetElementsByTagName("Message");
+            //foreach (var elemento in nodo)
+
+            writeMessage("Procesando mensajes: " + nodo.Count);
+
+            for (int i = 0; i <= nodo.Count; i++)
             {
-
-                xDoc.Load(op.FileNames[f]);
-                XmlNodeList xMensaje = xDoc.GetElementsByTagName("Message"); //GetElementsByTagName("Message");
-                writeMessage("Procesando mensajes: " + xMensaje.Count);
-                continue;
-                XmlDocument doc = new XmlDocument(xDoc.NameTable);
-                XmlTextReader reader = new XmlTextReader(op.FileNames[f]);
-
-                XmlNodeList tipoMensaje = xDoc.GetElementsByTagName("Type");
+                //var xMensaje = nodo[(int)elemento].OuterXml.ToString();
+                var xMensaje = nodo[i].OuterXml.ToString();
 
                 #region progressBar
-                //dt = capaNegocios.Operaciones(nroOperacion);
-
-                writeMessage("Procesando mensajes: " + xMensaje.Count);
-                int cantRegistros = xMensaje.Count;//dt.Rows.Count;
-                int i = 0;
-                //lblProcesados.Text = i.ToString().PadLeft(5, '0') + "/" + cantRegistros.ToString().PadLeft(5, '0');
-
+                writeMessage(i + 1 + " mensaje de" + nodo.Count + " listos");
                 // Display the ProgressBar control.
-                progressBar1.Visible = true;
-                // Set Minimum to 1 to represent the first file being copied.
-                if (cantRegistros > 1) progressBar1.Minimum = 1;
-                else progressBar1.Minimum = 0;
-                // Set Maximum to the total number of files to copy.
-                if (cantRegistros > 1) progressBar1.Maximum = cantRegistros - 1;
-                else progressBar1.Maximum = cantRegistros;
-                // Set the initial value of the ProgressBar.
-                if (cantRegistros > 1) progressBar1.Value = 1;
-                else progressBar1.Value = 0;
-                // Set the Step property to a value of 1 to represent each file being copied.
-                progressBar1.Step = 1;
+//                progressBar1.Visible = true;
+
                 #endregion
 
-                string mensaje = "";
-                while (reader.Read())
-                {
-                    switch (reader.NodeType)
-                    {
-                        case XmlNodeType.Element: // The node is an element.
-                            if (reader.IsEmptyElement)
-                                mensaje = mensaje + "<" + reader.Name + "/>\r\n";
-                            else
-                                if (reader.Name != "Messages")
-                                if (reader.Name == "Message")
-                                    mensaje = mensaje + "<" + reader.Name + " xmlns=\"urn:swift:saa:xsd:messaging\" xmlns:SwSec=\"urn:swift:saa:xsd:messaging\" xmlns:Sw=\"urn:swift:saa:xsd:messaging\" xmlns:SwInt=\"urn:swift:saa:xsd:messaging\"" + ">\r\n";
-                                else
-                                    mensaje = mensaje + "<" + reader.Name + ">\r\n";
-                            break;
-                        case XmlNodeType.Text: //Display the text in each element.
-                            mensaje = mensaje + reader.Value + "\r\n";
-                            break;
-                        case XmlNodeType.EndElement: //Display the end of the element.
-                            if (reader.Name != "Messages")
-                                mensaje = mensaje + "</" + reader.Name + ">\r\n";
-                            break;
-                    }
-                    if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "Message")
-                    {
-                        //doc.LoadXml(mensaje);
-                        getMessage(mensaje);
-                        //writeMessage(mensaje);
-                        i++;
-                        //writeMessage("Mensajes procesados: " + i + "/" + xMensaje.Count + ". Archivo: " + f + "/" + cantFiles);
-                        progressBar1.PerformStep();
-                        System.Threading.Thread.Sleep(1);
-                        mensaje = "";
-                    }
-                }
-            }
+
+                moverTodo(xMensaje);
+
+                capaNegocios.registroHistoricoLogEnvioSwift(" ", _enviadoRecibido, v_nombreArchSwift, destinationFile,
+                    _transactionReference, _senderSwiftAddress, _receiverSwiftAddress, _subFormat, _messageIdentifier, dateCreation);
+            }            
+
         }
 
         private void writeMessage(string mensaje)
@@ -320,7 +274,9 @@ namespace f2
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            progressBar1.Visible = false;
             writeMessage("Proceso completado!");
+            btnCaptura.Enabled = false;
         }
 
         /// <summary>
@@ -579,7 +535,7 @@ namespace f2
             string[] tipoMt = _messageIdentifier.Split('.');
             _messageIdentifier = reemplazoNombreCaracEsp(tipoMt[1]);
 
-            projectBase.WSAlzaArchivos.extractos elServicio = new projectBase.WSAlzaArchivos.extractos();
+            HistoricoMsjSwift_4.WSAlzaArchivos.extractos elServicio = new HistoricoMsjSwift_4.WSAlzaArchivos.extractos();
             byte[] uploadBuffer = null;
             Encoding encoding = Encoding.UTF8;
             uploadBuffer = encoding.GetBytes(doc.OuterXml);
@@ -616,7 +572,7 @@ namespace f2
                     if (MessageBox.Show("Estas seguro que desea Adjuntar este archivo?", "Confirme Operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {                        
                         try
-                        {
+                        {                            
                             generarXML(info);
                         }
                         catch (Exception Ex)
@@ -666,46 +622,35 @@ namespace f2
         public void generarXML(FileInfo info)
         {
             xDoc.Load(info.FullName);
-            XmlNodeList nodo = xDoc.GetElementsByTagName("Message");
-            //foreach (var elemento in nodo)
 
-            writeMessage("Procesando mensajes: " + nodo.Count);
-            for (int i = 0; i<=nodo.Count; i++ )
+            if (!backgroundWorker1.IsBusy)
             {
-                //var xMensaje = nodo[(int)elemento].OuterXml.ToString();
-                var xMensaje = nodo[i].OuterXml.ToString();
-
-                #region progressBar
-                //dt = capaNegocios.Operaciones(nroOperacion);
-
-                
-                //int cantRegistros = nodo.Count;//dt.Rows.Count;
-                //int i = 0;
-                //lblProcesados.Text = i.ToString().PadLeft(5, '0') + "/" + cantRegistros.ToString().PadLeft(5, '0');
-
-                // Display the ProgressBar control.
                 progressBar1.Visible = true;
-                // Set Minimum to 1 to represent the first file being copied.
-                if (i > 1) progressBar1.Minimum = 1;
-                else progressBar1.Minimum = 0;
-                // Set Maximum to the total number of files to copy.
-                if (i > 1) progressBar1.Maximum = i - 1;
-                else progressBar1.Maximum = i;
-                // Set the initial value of the ProgressBar.
-                if (i > 1) progressBar1.Value = 1;
-                else progressBar1.Value = 0;
-                // Set the Step property to a value of 1 to represent each file being copied.
-                progressBar1.Step = 1;
-                #endregion
-
-
-                moverTodo(xMensaje);
-
-                capaNegocios.registroHistoricoLogEnvioSwift(" ", _enviadoRecibido, v_nombreArchSwift, destinationFile, 
-                    _transactionReference, _senderSwiftAddress, _receiverSwiftAddress, _subFormat, _messageIdentifier);
+                backgroundWorker1.RunWorkerAsync();
             }
+
         }
 
+        private void progressBar1_EditValueChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void progressBar1_EditValueChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btManual_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                F2Lanza.Principal f = new F2Lanza.Principal("SRVORACLE|dbitacua", "Manuales_4", capaNegocios.sp_dt_param_menu(), usuarioOracle, passOracle);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

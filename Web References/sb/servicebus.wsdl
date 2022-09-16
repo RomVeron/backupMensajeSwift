@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.bancontinental.com.py/serviceBus" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.bancontinental.com.py/serviceBus" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.bancontinental.com.py/serviceBus">
+      <s:element name="autenticacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oracleUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oraclePassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oracleTns" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="produccion" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombreAplicacion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autenticacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="autenticacionResult" type="tns:SBstringAutenticacion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBstringAutenticacion">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="resultado" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="claseBaseParametro">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="error" type="tns:errores" />
+          <s:element minOccurs="0" maxOccurs="1" name="elError" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="errores">
+        <s:restriction base="s:string">
+          <s:enumeration value="OK" />
+          <s:enumeration value="credencialesNoValidas" />
+          <s:enumeration value="errorEnOracle" />
+          <s:enumeration value="passwordSBErroneo" />
+          <s:enumeration value="serviceBusNoDisponible" />
+          <s:enumeration value="inconsitenciaUserDuplicados" />
+          <s:enumeration value="ticketErroneo" />
+          <s:enumeration value="idUnicoErroneo" />
+          <s:enumeration value="noHayConexxionRemota" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="datasetOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfElParametro">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="elParametro" nillable="true" type="tns:elParametro" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="elParametro">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="tamanhoParametro" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="tipoDato" type="tns:tipoDeDatos" />
+          <s:element minOccurs="0" maxOccurs="1" name="elObjeto" />
+          <s:element minOccurs="1" maxOccurs="1" name="esOut" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="tipoDeDatos">
+        <s:restriction base="s:string">
+          <s:enumeration value="indefinido" />
+          <s:enumeration value="BFile" />
+          <s:enumeration value="Blob" />
+          <s:enumeration value="Byte" />
+          <s:enumeration value="Char" />
+          <s:enumeration value="Clob" />
+          <s:enumeration value="Date" />
+          <s:enumeration value="Decimal" />
+          <s:enumeration value="Double" />
+          <s:enumeration value="Long" />
+          <s:enumeration value="LongRaw" />
+          <s:enumeration value="Int16" />
+          <s:enumeration value="Int32" />
+          <s:enumeration value="Int64" />
+          <s:enumeration value="IntervalDS" />
+          <s:enumeration value="IntervalYM" />
+          <s:enumeration value="NClob" />
+          <s:enumeration value="NChar" />
+          <s:enumeration value="NVarchar2" />
+          <s:enumeration value="Raw" />
+          <s:enumeration value="RefCursor" />
+          <s:enumeration value="Single" />
+          <s:enumeration value="TimeStamp" />
+          <s:enumeration value="TimeStampLTZ" />
+          <s:enumeration value="TimeStampTZ" />
+          <s:enumeration value="Varchar2" />
+          <s:enumeration value="XmlType" />
+          <s:enumeration value="BinaryDouble" />
+          <s:enumeration value="BinaryFloat" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="datasetOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="datasetOracleResult" type="tns:SBdataset" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBdataset">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="resultado">
+                <s:complexType>
+                  <s:sequence>
+                    <s:element ref="s:schema" />
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="voidCommandOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="voidCommandOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="voidCommandOracleResult" type="tns:SBstring" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBstring">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="resultado" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="loginUsuarioPrueba">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="loginUsuarioPruebaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginUsuarioPruebaResult" type="tns:SBbool" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBbool">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="resultado" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="blobOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="blobOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="blobOracleResult" type="tns:SBbyte" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBbyte">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="resultado" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="stringOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="stringOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stringOracleResult" type="tns:SBstring" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="clobOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="clobOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="clobOracleResult" type="tns:SBstring" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="dateOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="dateOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="dateOracleResult" type="tns:SBdate" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBdate">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="resultado" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="intOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="intOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="intOracleResult" type="tns:SBint" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBint">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="resultado" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="doubleOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="doubleOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="doubleOracleResult" type="tns:SBDouble" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBDouble">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="resultado" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="intNvarcharOracle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="llamadaServidor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parametros" type="tns:ArrayOfElParametro" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="intNvarcharOracleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="intNvarcharOracleResult" type="tns:SBIntNvarchar" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SBIntNvarchar">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:claseBaseParametro">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="resultadoInt" type="s:double" />
+              <s:element minOccurs="0" maxOccurs="1" name="resultadoNvarchar" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="direccionXTelefono">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigoArea" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="numDeTelefono" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ticketResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="instanciaUnica" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="direccionXTelefonoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="direccionXTelefonoResult" type="tns:SBdataset" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2unaDll">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombreDll" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2unaDllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="F2unaDllResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2unaDllOracle12">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombreDll" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2unaDllOracle12Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="F2unaDllOracle12Result" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2AlzaEnsamblado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="laDistribucion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombreDll" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ensamblado" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2AlzaEnsambladoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="F2AlzaEnsambladoResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ensamblado" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2FirmaDeUnEnsamblado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="laDistribucion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="elArchivo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2FirmaDeUnEnsambladoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="F2FirmaDeUnEnsambladoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="F2listaCoincidenciasDLL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="noise" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="elArchivo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="F2listaCoincidenciasDLLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="F2listaCoincidenciasDLLResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="autenticacionSoapIn">
+    <wsdl:part name="parameters" element="tns:autenticacion" />
+  </wsdl:message>
+  <wsdl:message name="autenticacionSoapOut">
+    <wsdl:part name="parameters" element="tns:autenticacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="datasetOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:datasetOracle" />
+  </wsdl:message>
+  <wsdl:message name="datasetOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:datasetOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="voidCommandOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:voidCommandOracle" />
+  </wsdl:message>
+  <wsdl:message name="voidCommandOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:voidCommandOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="loginUsuarioPruebaSoapIn">
+    <wsdl:part name="parameters" element="tns:loginUsuarioPrueba" />
+  </wsdl:message>
+  <wsdl:message name="loginUsuarioPruebaSoapOut">
+    <wsdl:part name="parameters" element="tns:loginUsuarioPruebaResponse" />
+  </wsdl:message>
+  <wsdl:message name="blobOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:blobOracle" />
+  </wsdl:message>
+  <wsdl:message name="blobOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:blobOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="stringOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:stringOracle" />
+  </wsdl:message>
+  <wsdl:message name="stringOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:stringOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="clobOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:clobOracle" />
+  </wsdl:message>
+  <wsdl:message name="clobOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:clobOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="dateOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:dateOracle" />
+  </wsdl:message>
+  <wsdl:message name="dateOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:dateOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="intOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:intOracle" />
+  </wsdl:message>
+  <wsdl:message name="intOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:intOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="doubleOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:doubleOracle" />
+  </wsdl:message>
+  <wsdl:message name="doubleOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:doubleOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="intNvarcharOracleSoapIn">
+    <wsdl:part name="parameters" element="tns:intNvarcharOracle" />
+  </wsdl:message>
+  <wsdl:message name="intNvarcharOracleSoapOut">
+    <wsdl:part name="parameters" element="tns:intNvarcharOracleResponse" />
+  </wsdl:message>
+  <wsdl:message name="direccionXTelefonoSoapIn">
+    <wsdl:part name="parameters" element="tns:direccionXTelefono" />
+  </wsdl:message>
+  <wsdl:message name="direccionXTelefonoSoapOut">
+    <wsdl:part name="parameters" element="tns:direccionXTelefonoResponse" />
+  </wsdl:message>
+  <wsdl:message name="F2unaDllSoapIn">
+    <wsdl:part name="parameters" element="tns:F2unaDll" />
+  </wsdl:message>
+  <wsdl:message name="F2unaDllSoapOut">
+    <wsdl:part name="parameters" element="tns:F2unaDllResponse" />
+  </wsdl:message>
+  <wsdl:message name="F2unaDllOracle12SoapIn">
+    <wsdl:part name="parameters" element="tns:F2unaDllOracle12" />
+  </wsdl:message>
+  <wsdl:message name="F2unaDllOracle12SoapOut">
+    <wsdl:part name="parameters" element="tns:F2unaDllOracle12Response" />
+  </wsdl:message>
+  <wsdl:message name="F2AlzaEnsambladoSoapIn">
+    <wsdl:part name="parameters" element="tns:F2AlzaEnsamblado" />
+  </wsdl:message>
+  <wsdl:message name="F2AlzaEnsambladoSoapOut">
+    <wsdl:part name="parameters" element="tns:F2AlzaEnsambladoResponse" />
+  </wsdl:message>
+  <wsdl:message name="F2FirmaDeUnEnsambladoSoapIn">
+    <wsdl:part name="parameters" element="tns:F2FirmaDeUnEnsamblado" />
+  </wsdl:message>
+  <wsdl:message name="F2FirmaDeUnEnsambladoSoapOut">
+    <wsdl:part name="parameters" element="tns:F2FirmaDeUnEnsambladoResponse" />
+  </wsdl:message>
+  <wsdl:message name="F2listaCoincidenciasDLLSoapIn">
+    <wsdl:part name="parameters" element="tns:F2listaCoincidenciasDLL" />
+  </wsdl:message>
+  <wsdl:message name="F2listaCoincidenciasDLLSoapOut">
+    <wsdl:part name="parameters" element="tns:F2listaCoincidenciasDLLResponse" />
+  </wsdl:message>
+  <wsdl:portType name="servicebusSoap">
+    <wsdl:operation name="autenticacion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">proporciona el registro de login al serviceBus, ofreciendo el ticket de acceso a los nodos operaciones, Version: 10Set2013, 17:22</wsdl:documentation>
+      <wsdl:input message="tns:autenticacionSoapIn" />
+      <wsdl:output message="tns:autenticacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="datasetOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un dataset implementado</wsdl:documentation>
+      <wsdl:input message="tns:datasetOracleSoapIn" />
+      <wsdl:output message="tns:datasetOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="voidCommandOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos no retorna, es void</wsdl:documentation>
+      <wsdl:input message="tns:voidCommandOracleSoapIn" />
+      <wsdl:output message="tns:voidCommandOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="loginUsuarioPrueba">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">prueba login contra BD Oracle</wsdl:documentation>
+      <wsdl:input message="tns:loginUsuarioPruebaSoapIn" />
+      <wsdl:output message="tns:loginUsuarioPruebaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="blobOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos no retorna, es void</wsdl:documentation>
+      <wsdl:input message="tns:blobOracleSoapIn" />
+      <wsdl:output message="tns:blobOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="stringOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un string nvarchar2 de hasta 4000 caracteres</wsdl:documentation>
+      <wsdl:input message="tns:stringOracleSoapIn" />
+      <wsdl:output message="tns:stringOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="clobOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un clob</wsdl:documentation>
+      <wsdl:input message="tns:clobOracleSoapIn" />
+      <wsdl:output message="tns:clobOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="dateOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un string nvarchar2 de hasta 4000 caracteres</wsdl:documentation>
+      <wsdl:input message="tns:dateOracleSoapIn" />
+      <wsdl:output message="tns:dateOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="intOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un string nvarchar2 de hasta 4000 caracteres</wsdl:documentation>
+      <wsdl:input message="tns:intOracleSoapIn" />
+      <wsdl:output message="tns:intOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="doubleOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un string nvarchar2 de hasta 4000 caracteres</wsdl:documentation>
+      <wsdl:input message="tns:doubleOracleSoapIn" />
+      <wsdl:output message="tns:doubleOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="intNvarcharOracle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">llamado a base de datos que retorna un tipo de datos compuesto</wsdl:documentation>
+      <wsdl:input message="tns:intNvarcharOracleSoapIn" />
+      <wsdl:output message="tns:intNvarcharOracleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="direccionXTelefono">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Devuelve una direcccion de un telefono especificada en COPACO</wsdl:documentation>
+      <wsdl:input message="tns:direccionXTelefonoSoapIn" />
+      <wsdl:output message="tns:direccionXTelefonoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDll">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">devuelve una dll para referencias estaticas locales de ensablados de F2</wsdl:documentation>
+      <wsdl:input message="tns:F2unaDllSoapIn" />
+      <wsdl:output message="tns:F2unaDllSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDllOracle12">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">devuelve una dll para referencias estaticas locales de ensablados de F2, para este caso devolvemos la dll del oracleDataAcces 12</wsdl:documentation>
+      <wsdl:input message="tns:F2unaDllOracle12SoapIn" />
+      <wsdl:output message="tns:F2unaDllOracle12SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="F2AlzaEnsamblado">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Alza una dll para su distribucion</wsdl:documentation>
+      <wsdl:input message="tns:F2AlzaEnsambladoSoapIn" />
+      <wsdl:output message="tns:F2AlzaEnsambladoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="F2FirmaDeUnEnsamblado">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Devuelve la firma de un ensamblado de F2</wsdl:documentation>
+      <wsdl:input message="tns:F2FirmaDeUnEnsambladoSoapIn" />
+      <wsdl:output message="tns:F2FirmaDeUnEnsambladoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="F2listaCoincidenciasDLL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Devuelve la firma de un ensamblado de F2</wsdl:documentation>
+      <wsdl:input message="tns:F2listaCoincidenciasDLLSoapIn" />
+      <wsdl:output message="tns:F2listaCoincidenciasDLLSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="servicebusSoap" type="tns:servicebusSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="autenticacion">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/autenticacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="datasetOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/datasetOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="voidCommandOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/voidCommandOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loginUsuarioPrueba">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/loginUsuarioPrueba" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="blobOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/blobOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stringOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/stringOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="clobOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/clobOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dateOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/dateOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="intOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/intOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doubleOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/doubleOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="intNvarcharOracle">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/intNvarcharOracle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="direccionXTelefono">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/direccionXTelefono" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDll">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2unaDll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDllOracle12">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2unaDllOracle12" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2AlzaEnsamblado">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2AlzaEnsamblado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2FirmaDeUnEnsamblado">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2FirmaDeUnEnsamblado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2listaCoincidenciasDLL">
+      <soap:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2listaCoincidenciasDLL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="servicebusSoap12" type="tns:servicebusSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="autenticacion">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/autenticacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="datasetOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/datasetOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="voidCommandOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/voidCommandOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loginUsuarioPrueba">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/loginUsuarioPrueba" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="blobOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/blobOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stringOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/stringOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="clobOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/clobOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dateOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/dateOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="intOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/intOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doubleOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/doubleOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="intNvarcharOracle">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/intNvarcharOracle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="direccionXTelefono">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/direccionXTelefono" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDll">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2unaDll" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2unaDllOracle12">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2unaDllOracle12" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2AlzaEnsamblado">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2AlzaEnsamblado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2FirmaDeUnEnsamblado">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2FirmaDeUnEnsamblado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="F2listaCoincidenciasDLL">
+      <soap12:operation soapAction="http://www.bancontinental.com.py/serviceBus/F2listaCoincidenciasDLL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="servicebus">
+    <wsdl:port name="servicebusSoap" binding="tns:servicebusSoap">
+      <soap:address location="https://servicebus.bancontinental.com.py/servicebus.asmx" />
+    </wsdl:port>
+    <wsdl:port name="servicebusSoap12" binding="tns:servicebusSoap12">
+      <soap12:address location="https://servicebus.bancontinental.com.py/servicebus.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

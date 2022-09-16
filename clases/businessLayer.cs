@@ -13,7 +13,13 @@ namespace f2
     /// que relaciona formulario con el mundo exterior
     /// </summary>
     class businessLayer
-    {        
+    {
+        public readonly string[] ticketSb = new string[2];
+        public string[] idInstanciaSb = new string[2];
+        readonly HistoricoMsjSwift_4.sb.servicebus elSb = new HistoricoMsjSwift_4.sb.servicebus();
+        private string[] noise = new string[2];
+        private string[] ticketResult = new string[2];
+
         public DataTable dstipo() 
         {
             Oracle.DataAccess.Client.OracleConnection cone = new OracleConnection(this.cadenaDeConeccion);
@@ -64,7 +70,8 @@ namespace f2
                                                    string sender,
                                                    string receiber,
                                                    string inout,
-                                                   string mt)
+                                                   string mt,
+                                                   DateTime fecha)
         {
 
             OracleConnection conexion = new OracleConnection(this.cadenaDeConeccion);
@@ -80,6 +87,7 @@ namespace f2
             comando.Parameters.Add("pi_receiver", receiber);
             comando.Parameters.Add("pi_inout", inout);
             comando.Parameters.Add("pi_mt", mt);
+            comando.Parameters.Add("pi_fecha", fecha);
 
             try
             {
@@ -97,6 +105,84 @@ namespace f2
                 conexion.Close();
             }
         }
+
+
+        /// <summary>
+        /// Método que obtiene el número de manual del programa.
+        /// </summary>
+        /// <returns></returns>
+        public string sp_dt_param_menu()
+        {
+            /*wilson1.pkg_carta_referencia.sp_dt_param_menu(v_menu => :v_menu);*/
+            try
+            {
+                var losParametros = new HistoricoMsjSwift_4.sb.elParametro[1];
+                losParametros[0] = new HistoricoMsjSwift_4.sb.elParametro() { nombre = "v_menu", esOut = true, tipoDato = HistoricoMsjSwift_4.sb.tipoDeDatos.Varchar2 };
+                generar();
+
+                var elVuelto = elSb.intOracle("wilson1.pkg_carta_referencia.sp_dt_param_menu", losParametros, elTicket(), laInstanacia(), elNoise());
+                return elVuelto.resultado.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// Generar token de conexion sl SB.
+        /// </summary>
+        private void generar() { generar(0); }
+        /// <summary>
+        /// Generar token de conexion sl SB.
+        /// </summary>
+        /// <param name="posicion"></param>
+        private void generar(int posicion)
+        {
+            noise[posicion] = DateTime.Now.Ticks.ToString();
+            ticketResult[posicion] = utiles.GetMD5(ticketSb[posicion] + noise[posicion]);
+        }
+        /// <summary>
+        /// Gevuelve ticket de conexion actual al SB.
+        /// </summary>
+        /// <returns></returns>
+        private string elTicket() { return elTicket(0); }
+        /// Devuelve ticket de conexion actual al SB.
+        private string elTicket(int posicion)
+        {
+            return ticketResult[posicion];
+        }
+        /// <summary>
+        /// La semilla para ocultar el ticket de sesion en la comunicacion.
+        /// </summary>
+        /// <returns></returns>
+        private string elNoise() { return elNoise(0); }
+        /// <summary>
+        /// La semilla para ocultar el ticket de sesion en la comunicacion
+        /// </summary>
+        /// <param name="posicion"></param>
+        /// <returns></returns>
+        private string elNoise(int posicion)
+        {
+            return noise[posicion];
+        }
+        /// <summary>
+        /// Devuelve la instancia de conexion a la BD.
+        /// </summary>
+        /// <returns></returns>
+        private string laInstanacia() { return laInstanacia(0); }
+        /// <summary>
+        /// Devuelve la instancia de conexion a la BD.
+        /// </summary>
+        /// <param name="posicion"></param>
+        /// <returns></returns>
+        private string laInstanacia(int posicion)
+        {
+            return idInstanciaSb[posicion];
+        }
+
         #endregion
     }
 }

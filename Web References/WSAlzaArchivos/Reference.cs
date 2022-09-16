@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace projectBase.WSAlzaArchivos {
+namespace HistoricoMsjSwift_4.WSAlzaArchivos {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -52,7 +52,7 @@ namespace projectBase.WSAlzaArchivos {
         
         /// <remarks/>
         public extractos() {
-            this.Url = global::projectBase.Properties.Settings.Default.projectBase_WSAlzaArchivos_extractos;
+            this.Url = global::HistoricoMsjSwift_4.Properties.Settings.Default.projectBase_WSAlzaArchivos_extractos;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
